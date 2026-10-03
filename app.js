@@ -3,6 +3,7 @@ const mysql = require('mysql2');
 
 const app = express();
 
+// Activity 7: Database Connection
 const db = mysql.createConnection({
     host: 'localhost',
     user: 'root',
@@ -15,47 +16,34 @@ db.connect((err) => {
         console.error('Database connection failed:', err);
         return;
     }
-
     console.log('Connected to MySQL');
 });
 
-// Activity 8
+// Activity 8: Configure Express Middleware & View Engine
 app.set('view engine', 'ejs');
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public'));
 
-// Activity 9
+// Activity 9: Display Student List (Homepage)
 app.get('/', (req, res) => {
-    db.query('SELECT * FROM students', (err, results) => {
+    db.query('SELECT * FROM students ORDER BY id DESC', (err, results) => {
         if (err) {
             console.error(err);
-            return res.send('Error retrieving students');
+            return res.status(500).send('Database error');
         }
-
-        res.render('index', { students: results });
+        res.render('index', {
+            students: results
+        });
     });
 });
 
-// Activity 13
-app.post('/add', (req, res) => {
-    const { name, email, course } = req.body;
-
-    const sql = 'INSERT INTO students (name, email, course) VALUES (?, ?, ?)';
-
-    db.query(sql, [name, email, course], (err) => {
-        if (err) {
-            console.error(err);
-            return res.send('Error adding student');
-        }
-
-        res.redirect('/');
-    });
-});
+// Activity 12: Show Add Student Form
 app.get('/students/add', (req, res) => {
     res.render('add');
 });
-app.post('/students/add', (req, res) => {
 
+// Activity 13: Process Add Student Form
+app.post('/students/add', (req, res) => {
     const {
         student_id,
         first_name,
@@ -66,8 +54,8 @@ app.post('/students/add', (req, res) => {
     } = req.body;
 
     const sql = `
-        INSERT INTO students
-        (student_id, first_name, last_name, course, year_level, email)
+        INSERT INTO students 
+        (student_id, first_name, last_name, course, year_level, email) 
         VALUES (?, ?, ?, ?, ?, ?)
     `;
 
@@ -85,12 +73,38 @@ app.post('/students/add', (req, res) => {
             console.error(err);
             return res.status(500).send('Unable to save student');
         }
-
         res.redirect('/');
     });
 });
 
-// Start server
+// Activity 22: Add Student Search
+app.get('/students/search', (req, res) => {
+    const keyword = req.query.keyword || '';
+    const sql = `
+        SELECT * FROM students 
+        WHERE student_id LIKE ? 
+           OR first_name LIKE ? 
+           OR last_name LIKE ? 
+           OR course LIKE ?
+    `;
+    const searchValue = `%${keyword}%`;
+
+    db.query(
+        sql,
+        [searchValue, searchValue, searchValue, searchValue],
+        (err, results) => {
+            if (err) {
+                console.error(err);
+                return res.status(500).send('Search error');
+            }
+            res.render('index', {
+                students: results
+            });
+        }
+    );
+});
+
+// Activity 11: Start Server
 app.listen(3000, () => {
-    console.log('Server running on port 3000');
+    console.log('Server running at http://localhost:3000');
 });
