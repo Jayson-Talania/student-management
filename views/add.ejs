@@ -1,47 +1,61 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add Student</title>
+    <link rel="stylesheet" href="/style.css" type="text/css">
 </head>
 
 <body>
 
-    <h1>Add Student</h1>
+    <header>
+        <h1>Student Management System</h1>
+        <nav>
+            <a href="/">Back to Directory</a>
+        </nav>
+    </header>
 
-    <form action="/students/add" method="POST">
+    <div class="container">
+        <h2>Add New Student</h2>
 
-        <label>Student ID:</label><br>
-        <input type="text" name="student_id" required>
-        <br><br>
+        <form action="/students/add" method="POST" style="display: flex; flex-direction: column; gap: 1rem; max-width: 500px;">
+            <div>
+                <label>Student ID:</label><br>
+                <input type="text" name="student_id" placeholder="e.g. 2026-0001" required style="width: 100%; padding: 0.5rem; margin-top: 0.25rem;">
+            </div>
 
-        <label>First Name:</label><br>
-        <input type="text" name="first_name" required>
-        <br><br>
+            <div>
+                <label>First Name:</label><br>
+                <input type="text" name="first_name" placeholder="First Name" required style="width: 100%; padding: 0.5rem; margin-top: 0.25rem;">
+            </div>
 
-        <label>Last Name:</label><br>
-        <input type="text" name="last_name" required>
-        <br><br>
+            <div>
+                <label>Last Name:</label><br>
+                <input type="text" name="last_name" placeholder="Last Name" required style="width: 100%; padding: 0.5rem; margin-top: 0.25rem;">
+            </div>
 
-        <label>Course:</label><br>
-        <input type="text" name="course" required>
-        <br><br>
+            <div>
+                <label>Course:</label><br>
+                <input type="text" name="course" placeholder="e.g. BSIT" required style="width: 100%; padding: 0.5rem; margin-top: 0.25rem;">
+            </div>
 
-        <label>Year Level:</label><br>
-        <input type="number" name="year_level" min="1" max="5" required>
-        <br><br>
+            <div>
+                <label>Year Level:</label><br>
+                <input type="number" name="year_level" placeholder="e.g. 3" required style="width: 100%; padding: 0.5rem; margin-top: 0.25rem;">
+            </div>
 
-        <label>Email:</label><br>
-        <input type="email" name="email" required>
-        <br><br>
+            <div>
+                <label>Email:</label><br>
+                <input type="email" name="email" placeholder="student@example.com" required style="width: 100%; padding: 0.5rem; margin-top: 0.25rem;">
+            </div>
 
-        <button type="submit">Save Student</button>
-
-    </form>
-
-    <br>
-
-    <a href="/">Back to Student List</a>
+            <div>
+                <button type="submit" class="btn">Save Student</button>
+            </div>
+        </form>
+    </div>
 
 </body>
 

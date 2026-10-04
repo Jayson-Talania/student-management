@@ -1,5 +1,6 @@
 const express = require('express');
 const mysql = require('mysql2');
+const path = require('path');
 
 const app = express();
 
@@ -22,7 +23,7 @@ db.connect((err) => {
 // Activity 8: Configure Express Middleware & View Engine
 app.set('view engine', 'ejs');
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static('public'));
+app.use(express.static(path.join(__dirname, 'public')));
 
 // Activity 9: Display Student List (Homepage)
 app.get('/', (req, res) => {
@@ -102,6 +103,60 @@ app.get('/students/search', (req, res) => {
             });
         }
     );
+});
+
+// Part IV: Show Edit Student Form
+app.get('/students/edit/:id', (req, res) => {
+    const studentId = req.params.id;
+    const sql = 'SELECT * FROM students WHERE id = ?';
+
+    db.query(sql, [studentId], (err, results) => {
+        if (err) {
+            console.error(err);
+            return res.status(500).send('Database error');
+        }
+        if (results.length === 0) {
+            return res.status(404).send('Student not found');
+        }
+        res.render('edit', { student: results[0] });
+    });
+});
+
+// Part IV: Process Update Student Form
+app.post('/students/edit/:id', (req, res) => {
+    const studentId = req.params.id;
+    const {
+        student_id,
+        first_name,
+        last_name,
+        course,
+        year_level,
+        email
+    } = req.body;
+
+    const sql = `
+        UPDATE students 
+        SET student_id = ?, first_name = ?, last_name = ?, course = ?, year_level = ?, email = ?
+        WHERE id = ?
+    `;
+
+    const values = [
+        student_id,
+        first_name,
+        last_name,
+        course,
+        year_level,
+        email,
+        studentId
+    ];
+
+    db.query(sql, values, (err) => {
+        if (err) {
+            console.error(err);
+            return res.status(500).send('Unable to update student');
+        }
+        res.redirect('/');
+    });
 });
 
 // Activity 30: Delete Student Feature

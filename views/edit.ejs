@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Student</title>
+    <link rel="stylesheet" href="/style.css" type="text/css">
+</head>
+
+<body>
+
+    <header>
+        <h1>Student Management System</h1>
+        <nav>
+            <a href="/">Back to Directory</a>
+        </nav>
+    </header>
+
+    <div class="container">
+        <h2>Edit Student Information</h2>
+
+        <form action="/students/edit/<%= student.id %>" method="POST" style="display: flex; flex-direction: column; gap: 1rem; max-width: 500px;">
+            <div>
+                <label>Student ID:</label><br>
+                <input type="text" name="student_id" value="<%= student.student_id %>" required style="width: 100%; padding: 0.5rem; margin-top: 0.25rem;">
+            </div>
+
+            <div>
+                <label>First Name:</label><br>
+                <input type="text" name="first_name" value="<%= student.first_name %>" required style="width: 100%; padding: 0.5rem; margin-top: 0.25rem;">
+            </div>
+
+            <div>
+                <label>Last Name:</label><br>
+                <input type="text" name="last_name" value="<%= student.last_name %>" required style="width: 100%; padding: 0.5rem; margin-top: 0.25rem;">
+            </div>
+
+            <div>
+                <label>Course:</label><br>
+                <input type="text" name="course" value="<%= student.course %>" required style="width: 100%; padding: 0.5rem; margin-top: 0.25rem;">
+            </div>
+
+            <div>
+                <label>Year Level:</label><br>
+                <input type="number" name="year_level" value="<%= student.year_level %>" required style="width: 100%; padding: 0.5rem; margin-top: 0.25rem;">
+            </div>
+
+            <div>
+                <label>Email:</label><br>
+                <input type="email" name="email" value="<%= student.email %>" required style="width: 100%; padding: 0.5rem; margin-top: 0.25rem;">
+            </div>
+
+            <div>
+                <button type="submit" class="btn">Update Student</button>
+            </div>
+        </form>
+    </div>
+
+</body>
+
+</html>
