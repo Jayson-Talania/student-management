@@ -13,6 +13,14 @@
 
     <hr>
 
+    <!-- Activity 22: Search Form -->
+    <form action="/students/search" method="GET">
+        <input type="text" name="keyword" placeholder="Search student...">
+        <button type="submit">Search</button>
+    </form>
+
+    <br>
+
     <h2>Student List</h2>
 
     <table border="1" cellpadding="10">
@@ -24,6 +32,7 @@
             <th>Course</th>
             <th>Year</th>
             <th>Email</th>
+            <th>Actions</th>
         </tr>
 
         <% students.forEach(student => { %>
@@ -43,6 +52,12 @@
                 <td><%= student.year_level %></td>
 
                 <td><%= student.email %></td>
+
+                <td>
+                    <form action="/students/delete/<%= student.id %>" method="POST" style="display:inline;" onsubmit="return confirm('Are you sure you want to delete this student?');">
+                        <button type="submit">Delete</button>
+                    </form>
+                </td>
             </tr>
 
         <% }); %>
